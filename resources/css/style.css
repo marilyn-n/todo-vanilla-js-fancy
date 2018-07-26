@@ -19,7 +19,11 @@ header input {
   width: 98%;
   height: 50px;
   float: left;
-  background: rgba(255,255,255,0.2); 
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  
   border-top-left-radius: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 25px;
@@ -28,4 +32,8 @@ header input {
   box-shadow: none;
   outline: none;
   appearance: none;
+}
+
+header ::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
 }
