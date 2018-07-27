@@ -5,7 +5,10 @@ const completeSVG = ``;
 
 document.getElementById('add').addEventListener('click', () => {
   const value = document.getElementById('item').value;
-  if(value) addItemTodo(value);
+  if(value) {
+    addItemTodo(value);
+    document.getElementById('item').value = ''
+  }
 })
 
 const addItemTodo = (text) => {
@@ -24,5 +27,5 @@ const addItemTodo = (text) => {
   buttons.appendChild(remove);
   buttons.appendChild(complete);
   item.appendChild(buttons);
-  list.appendChild(item);  
+  list.insertBefore(item, list.childNodes[0]);  
 }; 
