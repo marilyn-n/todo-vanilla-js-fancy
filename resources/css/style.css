@@ -164,3 +164,13 @@ ul.todo li .buttons button.remove:hover svg .fill {
 ul.todo li .buttons button.remove svg .fill {
   fill: #c0cecb;
 }
+
+ul.todo li .buttons button.complete svg {
+  border-radius: 11px;
+  border: 1.5px solid#25b99a;
+  fill: #25b99a;
+}
+
+ul.todo li .buttons button.complete svg .fill {
+  fill: #25b99a;
+}
