@@ -25,7 +25,7 @@ const addItemTodo = (text) => {
   const complete  = document.createElement('button');
   complete.classList.add('complete');
   complete.innerHTML = completeSVG;
-
+  complete.addEventListener('click', completeItem);
   buttons.appendChild(remove);
   buttons.appendChild(complete);
   item.appendChild(buttons);
@@ -36,6 +36,14 @@ const removeItem = function() {
   const item = this.parentNode.parentNode;
   const parent = item.parentNode;
   parent.removeChild(item);
+};
+const completeItem = function() {
+  const item = this.parentNode.parentNode;
+  const parent = item.parentNode;
+  const name =  (parent.id === 'todo') ? 'completed' : 'todo';
+  target = document.getElementById(name);
+  parent.removeChild(item);
+  target.insertBefore(item, target.childNodes[0]);
 };
 
 document.getElementById('add').addEventListener('click', () => {
