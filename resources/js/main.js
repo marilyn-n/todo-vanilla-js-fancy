@@ -20,6 +20,7 @@ const addItemTodo = (text) => {
   const remove  = document.createElement('button');
   remove.classList.add('remove');
   remove.innerHTML = removeSVG;
+  remove.addEventListener('click', removeItem);
   const complete  = document.createElement('button');
   complete.classList.add('complete');
   complete.innerHTML = completeSVG;
@@ -29,3 +30,9 @@ const addItemTodo = (text) => {
   item.appendChild(buttons);
   list.insertBefore(item, list.childNodes[0]);  
 }; 
+
+const removeItem = () => {  
+  const item = this.parentNode.parentNode;
+  const parent = item.parentNode;
+  parent.removeChild(item);
+};
