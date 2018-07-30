@@ -8,7 +8,7 @@ Modern Browser on any OS - any of Firefox, Edge, Chrome or Opera should work fin
 
 ## Details
 
-It is made with pure JS, CSS and HTML - following guided video tutorials from themaxsandelin:
+It is made with pure ES6, CSS and HTML - following guided video tutorials from themaxsandelin:
 
 [![Video 1](https://www.youtube.com/watch?v=2wCpkOk2uCg&t=1s/0.jpg)](https://www.youtube.com/watch?v=2wCpkOk2uCg&t=1s/ "Video 1")
 
