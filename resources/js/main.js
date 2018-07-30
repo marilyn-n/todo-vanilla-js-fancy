@@ -1,7 +1,12 @@
-const data = {
+const data = (localStorage.getItem('todoList')) ? JSON.parse(localStorage.getItem('todoList')) : {
   todo: [],
-  complete: [],
+  completed: [],
 };
+
+const dataObjectUpdated = () => {
+  localStorage.setItem('todoList', JSON.stringify(data));
+};
+
 // icons code
 const removeSVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><rect class="noFill" width="22" height="22" /><g><g><path class="fill" d="M16.1,3.6h-1.9V3.3c0-1.3-1-2.3-2.3-2.3h-1.7C8.9,1,7.8,2,7.8,3.3v0.2H5.9c-1.3,0-2.3,1-2.3,2.3v1.3
@@ -16,8 +21,10 @@ const completeSVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns
  viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><rect y="0" class="noFill" width="22" height="22"/><g><path class="fill" d="M9.7,14.4L9.7,14.4c-0.2,0-0.4-0.1-0.5-0.2l-2.7-2.7c-0.3-0.3-0.3-0.8,0-1.1s0.8-0.3,1.1,0l2.1,2.1l4.8-4.8
   c0.3-0.3,0.8-0.3,1.1,0s0.3,0.8,0,1.1l-5.3,5.3C10.1,14.3,9.9,14.4,9.7,14.4z"/></g></svg>`;
 
-const addItemTodo = (text) => {
-  const list = document.getElementById('todo');
+const addItemTodo = (text, isCompleted) => {
+  const list = (isCompleted)
+    ? document.getElementById('completed')
+    : document.getElementById('todo');
   const item = document.createElement('li');
   item.innerText = text;
   const buttons = document.createElement('div');
@@ -29,34 +36,46 @@ const addItemTodo = (text) => {
   const complete = document.createElement('button');
   complete.classList.add('complete');
   complete.innerHTML = completeSVG;
-  complete.addEventListener('click', completeItem);
+  complete.addEventListener('click', toggleCompleteItem);
   buttons.appendChild(remove);
   buttons.appendChild(complete);
   item.appendChild(buttons);
   list.insertBefore(item, list.childNodes[0]);
+  dataObjectUpdated();
 };
 
 const removeItem = function () {
   const item = this.parentNode.parentNode;
   const parent = item.parentNode;
   parent.removeChild(item);
+  const id = parent.id;
+  const value = item.innerText;
+  if(id === 'todo') {
+    data.todo.splice(data.todo.indexOf(value), 1);
+  }
+  if(id === 'completed') {
+    data.completed.splice(data.completed.indexOf(value), 1);
+  }
+  dataObjectUpdated();
 };
-const completeItem = function () {
+const toggleCompleteItem = function () {
   const item = this.parentNode.parentNode;
   const parent = item.parentNode;
   const name = (parent.id === 'todo') ? 'completed' : 'todo';
   const value = item.innerText;
-  if(name === 'todo') {
-  data.todo.splice(data.todo.indexOf(value), 1);
-  data.complete.push(value);
+  if(name === 'completed') {
+    data.todo.splice(data.todo.indexOf(value), 1);
+    data.completed.push(value);
   }
-  if( name === 'complete') {
-    data.complete.splice(data.todo.indexOf(value), 1);
-    data.todo.push(value); 
+  if(name === 'todo') {
+    data.completed.splice(data.completed.indexOf(value), 1);
+    console.log(value, data.completed.indexOf(value));
+    data.todo.push(value);
   }
   target = document.getElementById(name);
   parent.removeChild(item);
   target.insertBefore(item, target.childNodes[0]);
+  dataObjectUpdated();
 };
 
 document.getElementById('add').addEventListener('click', () => {
@@ -67,3 +86,15 @@ document.getElementById('add').addEventListener('click', () => {
     document.getElementById('item').value = '';
   }
 });
+
+const renderTodoList = () => {
+  if( !data.todo.length && !data.completed.length) return;
+  data.todo.map((item) => {
+    addItemTodo(item);
+  });
+  data.completed.map((item) => {
+    addItemTodo(item, true);
+  });
+};
+
+renderTodoList();
