@@ -42,7 +42,7 @@ const completeItem = function() {
   const parent = item.parentNode;
   const name =  (parent.id === 'todo') ? 'completed' : 'todo';
   target = document.getElementById(name);
-  parent.removeChild(item);
+  parent.removeChild(item); 
   target.insertBefore(item, target.childNodes[0]);
 };
 
