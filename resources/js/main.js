@@ -1,3 +1,7 @@
+const data = {
+  todo: [],
+  complete: [],
+};
 // icons code
 const removeSVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><rect class="noFill" width="22" height="22" /><g><g><path class="fill" d="M16.1,3.6h-1.9V3.3c0-1.3-1-2.3-2.3-2.3h-1.7C8.9,1,7.8,2,7.8,3.3v0.2H5.9c-1.3,0-2.3,1-2.3,2.3v1.3
@@ -18,11 +22,11 @@ const addItemTodo = (text) => {
   item.innerText = text;
   const buttons = document.createElement('div');
   buttons.classList.add('buttons');
-  const remove  = document.createElement('button');
+  const remove = document.createElement('button');
   remove.classList.add('remove');
   remove.innerHTML = removeSVG;
   remove.addEventListener('click', removeItem);
-  const complete  = document.createElement('button');
+  const complete = document.createElement('button');
   complete.classList.add('complete');
   complete.innerHTML = completeSVG;
   complete.addEventListener('click', completeItem);
@@ -32,23 +36,33 @@ const addItemTodo = (text) => {
   list.insertBefore(item, list.childNodes[0]);
 };
 
-const removeItem = function() {
+const removeItem = function () {
   const item = this.parentNode.parentNode;
   const parent = item.parentNode;
   parent.removeChild(item);
 };
-const completeItem = function() {
+const completeItem = function () {
   const item = this.parentNode.parentNode;
   const parent = item.parentNode;
-  const name =  (parent.id === 'todo') ? 'completed' : 'todo';
+  const name = (parent.id === 'todo') ? 'completed' : 'todo';
+  const value = item.innerText;
+  if(name === 'todo') {
+  data.todo.splice(data.todo.indexOf(value), 1);
+  data.complete.push(value);
+  }
+  if( name === 'complete') {
+    data.complete.splice(data.todo.indexOf(value), 1);
+    data.todo.push(value); 
+  }
   target = document.getElementById(name);
-  parent.removeChild(item); 
+  parent.removeChild(item);
   target.insertBefore(item, target.childNodes[0]);
 };
 
 document.getElementById('add').addEventListener('click', () => {
   const { value } = document.getElementById('item');
   if (value) {
+    data.todo.push(value);
     addItemTodo(value);
     document.getElementById('item').value = '';
   }
